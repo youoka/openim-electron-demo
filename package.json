@@ -12,7 +12,7 @@
   },
   "scripts": {
     "dev": "vite --force --host",
-    "build": "vite build",
+    "build": "electron-builder --macos --x64",
     "preview": "vite preview",
     "pree2e": "vite build --mode=test",
     "e2e": "playwright test",
