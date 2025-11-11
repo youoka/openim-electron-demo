@@ -23,6 +23,7 @@ import { OverlayVisibleHandle } from "../../hooks/useOverlayVisible";
 import About from "./About";
 import styles from "./left-nav-bar.module.scss";
 import PersonalSettings from "./PersonalSettings";
+import CustomServiceList from "./CustomServiceList";
 
 const { Sider } = Layout;
 
@@ -159,6 +160,7 @@ i18n.on("languageChanged", () => {
 const LeftNavBar = memo(() => {
   const aboutRef = useRef<OverlayVisibleHandle>(null);
   const personalSettingsRef = useRef<OverlayVisibleHandle>(null);
+  const customServiceList = CustomServiceList(); // 初始化客服列表hook
   const [showProfile, setShowProfile] = useState(false);
   const selfInfo = useUserStore((state) => state.selfInfo);
   const userLogout = useUserStore((state) => state.userLogout);
@@ -287,9 +289,20 @@ const LeftNavBar = memo(() => {
         {NavList.map((nav) => (
           <NavItem nav={nav} key={nav.path} />
         ))}
+        
+        {/* 添加客服列表按钮 */}
+        <div
+          className="mb-3 flex h-[52px] w-12 cursor-pointer flex-col items-center justify-center rounded-md hover:bg-[#e9e9eb]"
+          onClick={customServiceList.openCustomServiceList}
+        >
+          <img width={20} src={contact_icon} alt="" />
+          <div className="mt-1 text-xs text-gray-500">{t("placeholder.customService")}</div>
+        </div>
       </div>
       <PersonalSettings ref={personalSettingsRef} />
       <About ref={aboutRef} />
+      {/* 添加客服列表模态框 */}
+      {customServiceList.CustomServiceListModal()}
     </Sider>
   );
 });
