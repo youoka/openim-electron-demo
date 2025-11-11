@@ -41,30 +41,19 @@ const LoginForm = ({ loginMethod, setFormType, updateLoginMethod }: LoginFormPro
   useEffect(() => {
     // Check URL parameters for auto-login
     // For hash router, we need to parse the search params after #
-    const hashSearchParams = new URLSearchParams(window.location.hash.split('?')[1]);
-    const username = hashSearchParams.get("username");
-    const password = hashSearchParams.get("password");
-    
-    if (username && password) {
-      // Determine login method based on username format
-      const isEmail = username.includes("@");
-      updateLoginMethod(isEmail ? "email" : "phone");
+    const hashSearchParams = new URLSearchParams(window.location.hash.split("?")[1]);
+    const IM_CHAT_TOKEN = hashSearchParams.get("chatToken");
+    const IM_TOKEN = hashSearchParams.get("imToken");
+    const IM_USERID = hashSearchParams.get("uid");
 
-      // Set form values
-      if (isEmail) {
-        form.setFieldsValue({ email: username, password });
-      } else {
-        form.setFieldsValue({
-          areaCode: hashSearchParams.get("areaCode") || "+86",
-          phoneNumber: username,
-          password,
-        });
-      }
-
-      // Submit the form
-      setTimeout(() => {
-        form.submit();
-      }, 100);
+    if (IM_CHAT_TOKEN && IM_TOKEN && IM_USERID) {
+      console.log(IM_CHAT_TOKEN, IM_TOKEN, IM_USERID);
+      setIMProfile({
+        chatToken: IM_CHAT_TOKEN,
+        imToken: IM_TOKEN,
+        userID: IM_USERID,
+      });
+      navigate("/chat");
     }
   }, []);
 
