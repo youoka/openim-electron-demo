@@ -12,8 +12,9 @@ import { feedbackToast } from "@/utils/common";
 // 固定的客服用户ID列表，可以根据实际需求修改
 const CUSTOM_SERVICE_USER_IDS = [
   // 这里应该填入实际的客服用户ID
-  // 示例: "user1", "user2", "user3"
-  "7454174484",
+    "5308100819",
+    "4136859592",
+    "3604454670",
 ];
 
 const CustomServiceList = () => {
@@ -57,7 +58,7 @@ const CustomServiceList = () => {
 
       // 更新当前会话
       await updateCurrentConversation(conversation);
-      
+
       // 关闭模态框并跳转到聊天页面
       setVisible(false);
       navigate(`/chat/${conversation.conversationID}`);
