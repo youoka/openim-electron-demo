@@ -1,4 +1,7 @@
 # 生产阶段
+#docker build -t 9zhouim-web .
+#docker tag 9zhouim-web yuanjay/9zhouim-web:latest
+#docker push yuanjay/9zhouim-web:latest
 FROM nginx:alpine
 
 # 复制 nginx 配置文件
