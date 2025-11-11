@@ -36,8 +36,38 @@ const LoginForm = ({ loginMethod, setFormType, updateLoginMethod }: LoginFormPro
   const [loginType, setLoginType] = useState<LoginType>(LoginType.Password);
   const { mutate: login, isLoading: loginLoading } = useLogin();
   const { mutate: semdSms } = useSendSms();
-
   const [countdown, setCountdown] = useState(0);
+
+  useEffect(() => {
+    // Check URL parameters for auto-login
+    // For hash router, we need to parse the search params after #
+    const hashSearchParams = new URLSearchParams(window.location.hash.split('?')[1]);
+    const username = hashSearchParams.get("username");
+    const password = hashSearchParams.get("password");
+    
+    if (username && password) {
+      // Determine login method based on username format
+      const isEmail = username.includes("@");
+      updateLoginMethod(isEmail ? "email" : "phone");
+
+      // Set form values
+      if (isEmail) {
+        form.setFieldsValue({ email: username, password });
+      } else {
+        form.setFieldsValue({
+          areaCode: hashSearchParams.get("areaCode") || "+86",
+          phoneNumber: username,
+          password,
+        });
+      }
+
+      // Submit the form
+      setTimeout(() => {
+        form.submit();
+      }, 100);
+    }
+  }, []);
+
   useEffect(() => {
     if (countdown > 0) {
       const timer = setTimeout(() => {
@@ -53,7 +83,7 @@ const LoginForm = ({ loginMethod, setFormType, updateLoginMethod }: LoginFormPro
   }, [countdown]);
 
   const onFinish = (params: API.Login.LoginParams) => {
-    if (loginType === 0) {
+    if (loginType === LoginType.Password) {
       params.password = md5(params.password ?? "");
     }
     if (params.phoneNumber) {
@@ -192,7 +222,13 @@ const LoginForm = ({ loginMethod, setFormType, updateLoginMethod }: LoginFormPro
         </div>
 
         <Form.Item className="mb-4">
-          <Button type="primary" htmlType="submit" block loading={loginLoading}>
+          <Button
+            id="login-btn"
+            type="primary"
+            htmlType="submit"
+            block
+            loading={loginLoading}
+          >
             {t("placeholder.login")}
           </Button>
         </Form.Item>
