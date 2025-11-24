@@ -12,7 +12,7 @@
   },
   "scripts": {
     "dev": "vite --force --host",
-    "build": "vite build  &&  electron-builder --macos --x64",
+    "build": "electron-builder --win --x64",
     "preview": "vite preview",
     "pree2e": "vite build --mode=test",
     "e2e": "playwright test",
@@ -77,7 +77,7 @@
     "@ckeditor/ckeditor5-react": "^8.0.0",
     "@livekit/components-react": "2.6.9",
     "@livekit/components-styles": "1.1.4",
-    "@openim/electron-client-sdk": "^3.8.3-patch.10",
+    "@openim/electron-client-sdk": "file:/Users/jayyuan/GolandProjects/openim-sdk-electron",
     "@openim/wasm-client-sdk": "^3.8.3-patch.10",
     "adm-zip": "^0.5.10",
     "ahooks": "^3.7.7",
